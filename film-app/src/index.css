@@ -1,0 +1,28 @@
+/* Aydınlık Tema (Varsayılan) */
+:root {
+  --bg-color: #ffffff;
+  --text-color: #333333;
+  --card-bg: #ffffff;
+  --header-color: #ff9800;
+}
+
+/* Koyu Tema (Sınıf eklendiğinde devreye girer) */
+.dark-mode {
+  --bg-color: #141414;
+  --text-color: #ffffff;
+  --card-bg: #1e1e1e;
+  --header-color: #ff9800;
+}
+
+body {
+  background-color: var(--bg-color) !important;
+  color: var(--text-color) !important;
+  transition: all 0.3s ease;
+}
+
+.movie-card {
+  background-color: var(--card-bg) !important;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+h1, h2, h3 { color: var(--header-color) !important; }
