@@ -11,7 +11,8 @@ function MovieCard({ movie }) {
   const rating = movie.vote_average ? movie.vote_average.toFixed(1) : "N/A";
 
   return (
-    <div
+    <Link
+      to={`/movie/${movie.id}`}
       className="movie-card"
       style={{
         border: "1px solid #ccc",
@@ -23,7 +24,10 @@ function MovieCard({ movie }) {
         backgroundColor: "#fff",
         position: "relative",
         transition: "all 0.3s ease",
-        cursor: "pointer"
+        cursor: "pointer",
+        textDecoration: "none", // Kartın içindeki yazıların altının çizilmesini önler
+        display: "block",       // Tasarımın div gibi düzgün durmasını sağlar
+        color: "inherit"        // Yazı renklerinin varsayılan mavi link rengi olmasını engeller
       }}
       onMouseEnter={(e) => {
         e.currentTarget.style.transform = "translateY(-8px) scale(1.05)";
@@ -84,22 +88,21 @@ function MovieCard({ movie }) {
         Yayın Tarihi: {movie.release_date}
       </p>
 
-      <Link
-        to={`/movie/${movie.id}`}
+      {/* Tıklama işini artık üstteki Link üstlendiği için burayı normal div yaptık */}
+      <div
         style={{
           display: "inline-block",
           padding: "6px 12px",
           backgroundColor: "#ff9800",
           color: "#fff",
-          textDecoration: "none",
           borderRadius: "5px",
           fontWeight: "bold",
           fontSize: "12px"
         }}
       >
         Detayları Gör
-      </Link>
-    </div>
+      </div>
+    </Link>
   );
 }
 
