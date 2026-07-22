@@ -3,14 +3,25 @@ import { useParams, Link } from "react-router-dom";
 import { getMovieDetails } from "../services/movieApi";
 
 export default function MovieDetail() {
-  const { id } = useParams(); // URL'den film ID'sini alıyoruz
+  const { id } = useParams(); 
   const [movie, setMovie] = useState(null);
   const [loading, setLoading] = useState(true);
+
+  // Gelişmiş "Wow" Bildirim State'i (alert yerine çalışacak)
+  const [toast, setToast] = useState({ show: false, message: "", type: "success" });
+
+  // Bildirimi ekranda gösterip 3 saniye sonra kapatan fonksiyon
+  const showToast = (message, type = "success") => {
+    setToast({ show: true, message, type });
+    setTimeout(() => {
+      setToast({ show: false, message: "", type: "success" });
+    }, 3000);
+  };
 
   useEffect(() => {
     const fetchDetails = async () => {
       try {
-        const data = await getMovieDetails(id); // Detayları API'den çekiyoruz
+        const data = await getMovieDetails(id); 
         setMovie(data);
       } catch (error) {
         console.error("Film detayları yüklenirken hata oluştu:", error);
@@ -21,23 +32,41 @@ export default function MovieDetail() {
     fetchDetails();
   }, [id]);
 
-  // LocalStorage kullanarak favoriye ekleme fonksiyonu (Hocanın özel isteği!)
-  const handleAddToFavorites = () => {
+  const handleAddToFavorites = async () => {
     if (!movie) return;
-    const currentFavs = JSON.parse(localStorage.getItem("favorites")) || [];
-    
-    // Eğer film zaten favorilerde yoksa ekle
-    if (!currentFavs.some((fav) => fav.id === movie.id)) {
-      const updatedFavs = [...currentFavs, {
-        id: movie.id,
-        title: movie.title,
-        poster_path: movie.poster_path,
-        release_date: movie.release_date
-      }];
-      localStorage.setItem("favorites", JSON.stringify(updatedFavs));
-      alert("Film favorilere eklendi! ⭐");
-    } else {
-      alert("Bu film zaten favorilerinizde! 😊");
+
+    const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+
+    if (!currentUser) {
+      // alert yerine modern kırmızı bildirim
+      showToast("Favorilere film ekleyebilmek için lütfen önce giriş yapın! 🔑", "error");
+      return;
+    }
+
+    try {
+      const response = await fetch("http://localhost:5000/favorites", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userId: currentUser.username, 
+          movieId: movie.id,
+          title: movie.title,
+          poster_path: movie.poster_path,
+          release_date: movie.release_date
+        }),
+      });
+
+      if (response.ok) {
+        // alert yerine modern yeşil bildirim
+        showToast(`${movie.title} başarıyla favorilerinize eklendi! ⭐`, "success");
+      } else {
+        showToast("Favorilere eklenirken API tarafında bir sorun oluştu. ❌", "error");
+      }
+    } catch (error) {
+      console.error("Favori API bağlantı hatası:", error);
+      showToast("API sunucunuzun (json-server) açık olduğundan emin olun! 🔌", "error");
     }
   };
 
@@ -49,7 +78,32 @@ export default function MovieDetail() {
     : "https://via.placeholder.com/500x750?text=Afiş+Yok";
 
   return (
-    <div style={{ padding: "30px", maxWidth: "900px", margin: "0 auto", color: "#333" }}>
+    <div style={{ padding: "30px", maxWidth: "900px", margin: "0 auto", color: "#333", position: "relative" }}>
+      
+      {/* 🚀 MODERN BİLDİRİM KUTUSU (WOW EFEKTİ) */}
+      {toast.show && (
+        <div style={{
+          position: "fixed",
+          top: "30px",
+          right: "30px",
+          backgroundColor: toast.type === "success" ? "#2ecc71" : "#e74c3c",
+          color: "white",
+          padding: "16px 28px",
+          borderRadius: "8px",
+          boxShadow: "0 10px 25px rgba(0,0,0,0.2)",
+          zIndex: 9999,
+          fontWeight: "bold",
+          fontSize: "15px",
+          display: "flex",
+          alignItems: "center",
+          gap: "10px",
+          animation: "slideIn 0.3s ease-out",
+          fontFamily: "sans-serif"
+        }}>
+          {toast.message}
+        </div>
+      )}
+
       <Link to="/" style={{ textDecoration: "none", color: "#e50914", fontWeight: "bold", display: "inline-block", marginBottom: "20px" }}>
         ← Anasayfaya Dön
       </Link>
