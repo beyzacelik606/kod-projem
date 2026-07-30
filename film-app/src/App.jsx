@@ -1,5 +1,7 @@
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { toggleDarkMode } from "./redux/themeSlice";
 import "./App.css";
 
 // Sayfa İçe Aktarmaları
@@ -10,10 +12,11 @@ import Login from "./pages/Login.jsx";
 import RegisterPage from "./pages/RegisterPage.jsx"; 
 
 function App() {
-  // Koyu mod durumu
-  const [isDarkMode, setIsDarkMode] = useState(false);
+  // Redux'tan koyu mod durumunu ve tetikleyiciyi çekiyoruz
+  const dispatch = useDispatch();
+  const isDarkMode = useSelector((state) => state.theme.darkMode);
 
-  // 🚀 Giriş yapmış kullanıcıyı takip eden durum (Sayfa yenilense bile hafızadan okur)
+  // Giriş yapmış kullanıcıyı takip eden durum
   const [user, setUser] = useState(() => {
     return JSON.parse(localStorage.getItem("currentUser")) || null;
   });
@@ -26,10 +29,11 @@ function App() {
     accentColor: "#ff9800",
   };
 
-  // 🚀 Çıkış yapma fonksiyonu
+  // Çıkış yapma fonksiyonu
   const handleLogout = () => {
-    localStorage.removeItem("currentUser"); // Aktif kullanıcıyı hafızadan sil
-    setUser(null); // Üst menünün anında güncellenmesi için durumu sıfırla
+    localStorage.removeItem("currentUser");
+    localStorage.removeItem("session_id");
+    setUser(null);
   };
 
   return (
@@ -72,20 +76,23 @@ function App() {
         {/* Sağ Taraf: Dinamik Butonlar ve Koyu Mod Ayarı */}
         <div style={{ display: "flex", gap: "15px", alignItems: "center" }}>
           
-          {/* Gece/Gündüz Modu Butonu */}
-          <button onClick={() => setIsDarkMode(!isDarkMode)} style={{
-            backgroundColor: "transparent",
-            border: "none",
-            color: theme.textColor,
-            fontSize: "1.2rem",
-            cursor: "pointer",
-            marginRight: "5px",
-            padding: "5px"
-          }}>
+          {/* Gece/Gündüz Modu Butonu (Artık Redux ile Çalışıyor) */}
+          <button 
+            onClick={() => dispatch(toggleDarkMode())} 
+            style={{
+              backgroundColor: "transparent",
+              border: "none",
+              color: theme.textColor,
+              fontSize: "1.2rem",
+              cursor: "pointer",
+              marginRight: "5px",
+              padding: "5px"
+            }}
+          >
              {isDarkMode ? "💡" : "🌙"}
           </button>
 
-          {/* 🚀 DİNAMİK ALAN: Eğer kullanıcı giriş yapmışsa adını ve Çıkış Yap butonunu göster */}
+          {/* Kullanıcı giriş durumu */}
           {user ? (
             <div style={{ display: "flex", alignItems: "center", gap: "15px" }}>
               <span style={{ color: theme.textColor, fontSize: "14px", fontWeight: "500" }}>
@@ -106,7 +113,6 @@ function App() {
               </button>
             </div>
           ) : (
-            /* 🚀 Kullanıcı giriş yapmamışsa eski Giriş Yap / Kayıt Ol butonlarını göster */
             <>
               <Link to="/login" style={{
                 padding: "8px 16px",
@@ -144,10 +150,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/movie/:id" element={<MovieDetail />} />
         <Route path="/favorites" element={<Favorites />} />
-        
-        {/* 🚀 Login sayfasına kullanıcı durumunu değiştirebilmesi için setUser fonksiyonunu gönderiyoruz */}
         <Route path="/login" element={<Login setUser={setUser} />} />
-        
         <Route path="/register" element={<RegisterPage />} />
       </Routes>
     </BrowserRouter>
