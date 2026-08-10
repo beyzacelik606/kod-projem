@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { 
-  getRequestToken, 
-  validateWithLogin, 
+  createRequestToken, 
+  validateTokenWithLogin, 
   createSession 
 } from "../services/authenticationApi";
 
@@ -20,10 +20,10 @@ export default function Login() {
 
     try {
       // 1. Adım: Request Token Al
-      const requestToken = await getRequestToken();
+      const requestToken = await createRequestToken();
 
       // 2. Adım: Kullanıcı Adı ve Şifre ile Doğrula
-      const validationData = await validateWithLogin(username, password, requestToken);
+      const validationData = await validateTokenWithLogin(username, password, requestToken);
 
       if (validationData.success) {
         // 3. Adım: Session ID Oluştur
