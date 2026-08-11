@@ -1,0 +1,25 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "username": "beyza",
+      "password": "123"
+    },
+    {
+      "username": "yagmur",
+      "password": "456",
+      "id": "upNTwzyk3Xc"
+    }
+  ],
+  "favorites": [
+    {
+      "userId": "beyza",
+      "movieId": 1084244,
+      "title": "Toy Story 5",
+      "poster_path": "/sfQtVlIHljToOwYjhe21KPGzZWK.jpg",
+      "release_date": "2026-06-17",
+      "id": "CUYaWUwYjQQ"
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
+}
