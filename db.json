@@ -1,0 +1,57 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "username": "beyza",
+      "password": "123"
+    },
+    {
+      "username": "yagmur",
+      "password": "456",
+      "id": "upNTwzyk3Xc"
+    }
+  ],
+  "favorites": [
+    {
+      "userId": "beyza",
+      "movieId": 1084244,
+      "title": "Toy Story 5",
+      "poster_path": "/sfQtVlIHljToOwYjhe21KPGzZWK.jpg",
+      "release_date": "2026-06-17",
+      "id": "CUYaWUwYjQQ"
+    },
+    {
+      "userId": "beyza",
+      "movieId": 969681,
+      "title": "Örümcek-Adam: Yepyeni Bir Gün",
+      "poster_path": "/tO5dZo2VXo9BNZ9IR2X2HwJBWmm.jpg",
+      "release_date": "2026-07-29",
+      "id": "FF9Ygmwe4kI"
+    },
+    {
+      "userId": "beyza",
+      "movieId": 969681,
+      "title": "Örümcek-Adam: Yepyeni Bir Gün",
+      "poster_path": "/tO5dZo2VXo9BNZ9IR2X2HwJBWmm.jpg",
+      "release_date": "2026-07-29",
+      "id": "_ozfLau3nWE"
+    },
+    {
+      "userId": "beyza",
+      "movieId": 969681,
+      "title": "Örümcek-Adam: Yepyeni Bir Gün",
+      "poster_path": "/tO5dZo2VXo9BNZ9IR2X2HwJBWmm.jpg",
+      "release_date": "2026-07-29",
+      "id": "mzvNVrcN-44"
+    },
+    {
+      "userId": "beyza.celik66",
+      "movieId": 1339713,
+      "title": "Saplantı",
+      "poster_path": "/nriiXc6VbD6qWBj7INOElJbX8mp.jpg",
+      "release_date": "2026-05-13",
+      "id": "gwKnbP4vvVE"
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
+}
