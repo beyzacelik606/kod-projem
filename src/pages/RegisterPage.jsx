@@ -72,7 +72,7 @@ export default function Register() {
       )}
 
       <h2 className="mb-5 text-gray-800 font-sans text-2xl font-bold">Kayıt Ol</h2>
-      <form onSubmit={handleRegister} className="flex flex-col gap-[15px] w-full">
+      <form onSubmit={handleRegister} className="flex flex-col gap-[5px]">
         <input
           type="text"
           placeholder="Kullanıcı Adı"

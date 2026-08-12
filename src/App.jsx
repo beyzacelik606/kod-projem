@@ -9,6 +9,7 @@ import MovieDetail from "./pages/MovieDetail.jsx";
 import Favorites from "./pages/Favorites.jsx";
 import Login from "./pages/Login.jsx";
 import RegisterPage from "./pages/RegisterPage.jsx"; 
+import "tailwindcss";
 
 function App() {
   // Redux'tan koyu mod durumunu çekiyoruz

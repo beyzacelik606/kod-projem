@@ -1,6 +1,5 @@
 @tailwind base;
 @tailwind components;
-<<<<<<< HEAD
 @tailwind utilities;
 
 /* Aydınlık Tema (Varsayılan) */
@@ -31,6 +30,3 @@ body {
 }
 
 h1, h2, h3 { color: var(--header-color) !important; }
-=======
-@tailwind utilities;
->>>>>>> b4b3639a01b5d876858d45b1071ae6903c1ee8ef
